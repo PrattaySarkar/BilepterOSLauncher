@@ -4,6 +4,38 @@ from tkinter import ttk
 import webbrowser
 from PIL import ImageTk, Image
 import pygame
+from ttkthemes import ThemedTk
+
+
+def rgb_to_hex(r, g, b):
+    return f'#{r:02x}{g:02x}{b:02x}'
+
+def interpolate_color(color1, color2, factor):
+    return (
+        int(color1[0] + (color2[0] - color1[0]) * factor),
+        int(color1[1] + (color2[1] - color1[1]) * factor),
+        int(color1[2] + (color2[2] - color1[2]) * factor)
+    )
+
+def update_colors():
+    global step, current_color, next_color, color_index
+    factor = step / steps
+
+    interpolated_color = interpolate_color(current_color, next_color, factor)
+    hex_color = rgb_to_hex(*interpolated_color)
+
+    for frame in color_frames:
+        frame.config(bg=hex_color)
+
+    step += 1
+    if step > steps:
+        step = 0
+        current_color = next_color
+        color_index = (color_index + 1) % len(colors)
+        next_color = colors[color_index]
+
+    root.after(update_interval, update_colors)
+
 
 # Back Ground M.U.S.I.C.
 
@@ -55,10 +87,46 @@ root = tk.Tk()
 root.title("BilepterOS Launcher")
 root.geometry("300x550")
 
-# Import the tcl file
-root.tk.call('source', 'forest-dark.tcl')
 
-# Set the theme with the theme_use method
+colors = [
+    (255, 0, 0),    # Red
+    (0, 255, 0),    # Green
+    (0, 0, 255),    # Blue
+    (255, 255, 0),  # Yellow
+    (0, 255, 255),  # Cyan
+    (255, 0, 255)   # Magenta
+]
+
+steps = 100
+update_interval = 20
+step = 0
+color_index = 0
+
+current_color = colors[color_index]
+next_color = colors[(color_index + 1) % len(colors)]
+
+# Create thin frames around the window
+frame_thickness = 5
+
+top_frame = tk.Frame(root, height=frame_thickness)
+top_frame.pack(side="top", fill="x")
+
+bottom_frame = tk.Frame(root, height=frame_thickness)
+bottom_frame.pack(side="bottom", fill="x")
+
+left_frame = tk.Frame(root, width=frame_thickness)
+left_frame.pack(side="left", fill="y")
+
+right_frame = tk.Frame(root, width=frame_thickness)
+right_frame.pack(side="right", fill="y")
+
+# Store frames for easy color update
+color_frames = [top_frame, bottom_frame, left_frame, right_frame]
+
+# Start updating colors
+update_colors()
+
+root.tk.call('source', 'forest-dark.tcl')
 ttk.Style().theme_use('forest-dark')
 
 root.resizable(False, False)
