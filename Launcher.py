@@ -63,6 +63,7 @@ def launchercredits():
     label2.pack(padx=1, pady=1, fill=tk.BOTH, expand=True)
 
 
+
 def install_qemu():
     webbrowser.open("https://github.com/PrattaySarkar/BilepterOS/blob/main/README.md")
 
