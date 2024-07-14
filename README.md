@@ -45,12 +45,3 @@ Contributions are welcome! If you'd like to contribute to BilepterOSLauncher, pl
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Thanks to the contributors and the community for their support.
-- Inspired by various open-source launcher projects.
-
-## Contact
-
-For any inquiries or issues, please open an issue on GitHub or contact the author at [your-email@example.com].
