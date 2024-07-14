@@ -2,10 +2,15 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import webbrowser
-
-import sv_ttk
 from PIL import ImageTk, Image
+import pygame
 
+# Back Ground M.U.S.I.C.
+
+pygame.mixer.init()
+
+pygame.mixer.music.load("somebackgroundmusic.mp3")
+pygame.mixer.music.play(-1)
 
 def launchercredits():
     new_window = tk.Toplevel(root)
@@ -27,18 +32,16 @@ def launchercredits():
 
 
 def install_qemu():
-
     webbrowser.open("https://github.com/PrattaySarkar/BilepterOS/blob/main/README.md")
 
 
 def launchv1():
-
     os.system("qemu-system-x86_64 imgs\\\\bilepteros1.bin")
 
 
 def launchv2():
-
     os.system("qemu-system-x86_64 imgs\\\\bilepteros2.iso")
+
 
 def perform_action():
     selected_option = listbox.get(listbox.curselection())
@@ -90,5 +93,12 @@ button2.pack(pady=10)
 button3 = ttk.Button(root, text="Credits", style="Accent.TButton", command=launchercredits)
 button3.pack(pady=10)
 
+
+def on_closing():
+    pygame.mixer.music.stop()
+    root.destroy()
+
+
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 root.mainloop()
